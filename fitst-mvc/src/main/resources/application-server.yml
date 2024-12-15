@@ -1,0 +1,13 @@
+server:
+  ip: 211.75.1.204
+  delegate-port: 50000
+  image:
+    name: image
+    path: 'D:\first-mvc\UploadFile\${server.image.name}\'
+  file:
+    name: file
+    path: 'D:\first-mvc\UploadFile\${server.file.name}\'
+logging:
+  level:
+    sqltiming: DEBUG
+    resultsettable: DEBUG
