@@ -8,6 +8,7 @@ import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity.listener.AuthorListen
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 
@@ -26,18 +27,20 @@ public class Author {
     @Column(name = "id", nullable = false)
     private Integer id;
     // 對應欄位資料
-    @Column(name = "name", length = 5, nullable = false)
+    @Column(name = "name", length = 20, nullable = false)
     private String name;
 
+    @Column(name = "info", length = 500, nullable = false)
+    private String info;
 
     @Column(name = "birthdate", nullable = false)
-    private LocalDate birthdate;
+    private Date birthdate;
 
 
     @Column(name = "create_time", nullable = false)
     private LocalDateTime create_time;
 
-//    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Book> books;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Book> books;
 
 }

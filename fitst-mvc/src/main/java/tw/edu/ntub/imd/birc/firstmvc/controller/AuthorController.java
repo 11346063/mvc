@@ -12,7 +12,9 @@ import tw.edu.ntub.imd.birc.firstmvc.util.json.array.ArrayData;
 import tw.edu.ntub.imd.birc.firstmvc.util.json.object.ObjectData;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 @AllArgsConstructor
 @RestController
@@ -20,12 +22,17 @@ import java.time.LocalDate;
 public class AuthorController {
     private final AuthorService authorService;
 
+    public String DateToString (Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        return dateFormat.format(date);
+    }
     //新增
-    @PostMapping(path = "/create")
+    @PostMapping
     public ResponseEntity<String> createAuthor(@Valid @RequestBody AuthorBean authorBean,
                                                 BindingResult bindingResult) {
         BindingResultUtils.validate(bindingResult);
-        authorBean.setBirthdate(LocalDate.parse(authorBean.getBirthdate_str()));
+
+//        authorBean.setBirthdate(LocalDate.parse(authorBean.getBirthdateS()));
         authorService.save(authorBean);
         return ResponseEntityBuilder.success()
                 .message("新增成功")
@@ -36,7 +43,7 @@ public class AuthorController {
     @PatchMapping(path = "/{id}")
     public ResponseEntity<String> updateScore(@RequestBody AuthorBean authorBean, @PathVariable Integer id) {
 
-        authorBean.setBirthdate(LocalDate.parse(authorBean.getBirthdate_str()));
+        //        authorBean.setBirthdate(LocalDate.parse(authorBean.getBirthdateS()));
         authorService.update(id, authorBean);
         return ResponseEntityBuilder.success()
                 .message("更新成功")
@@ -53,15 +60,31 @@ public class AuthorController {
     }
 
     //取得全部
-    @GetMapping(path = "")
+    @GetMapping
     public ResponseEntity<String> getAll() {
         ArrayData arrayData = new ArrayData();
         for (AuthorBean authorBean : authorService.findAll()) {
             ObjectData objectData = arrayData.addObject();
             objectData.add("id", authorBean.getId());
             objectData.add("name", authorBean.getName());
-            objectData.add("birthdate", authorBean.getBirthdate());
+            objectData.add("birthDate", DateToString(authorBean.getBirthdate()));
             objectData.add("create_time", authorBean.getCreate_time());
+        }
+        return ResponseEntityBuilder.success()
+                .message("查詢成功")
+                .data(arrayData)
+                .build();
+    }
+
+    @GetMapping(params = {"id"})
+    public ResponseEntity<String> findById(@RequestParam(name = "id") Integer id) {
+        ArrayData arrayData = new ArrayData();
+        for (AuthorBean authorBean : authorService.findId(id)) {
+            ObjectData objectData = arrayData.addObject();
+            objectData.add("id", authorBean.getId());
+            objectData.add("name", authorBean.getName());
+            objectData.add("info", authorBean.getInfo());
+            objectData.add("birthDate", DateToString(authorBean.getBirthdate()));
         }
         return ResponseEntityBuilder.success()
                 .message("查詢成功")

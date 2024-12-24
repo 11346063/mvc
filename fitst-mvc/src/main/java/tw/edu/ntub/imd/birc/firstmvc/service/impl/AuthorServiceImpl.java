@@ -41,4 +41,8 @@ public class AuthorServiceImpl extends BaseServiceImpl<AuthorBean, Author, Integ
 
         return CollectionUtils.map(authorDAO.findAll(), transformer::transferToBean);
     }
+
+    public List<AuthorBean> findId(Integer id) {
+        return CollectionUtils.map(authorDAO.findAllById(id), transformer::transferToBean);
+    }
 }

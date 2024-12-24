@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AuthorService extends BaseService<AuthorBean, Integer> {
     List<AuthorBean> findAll();
+    List<AuthorBean> findId(Integer id);
 }

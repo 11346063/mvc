@@ -8,6 +8,7 @@ import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity.listener.BookListener
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Data
@@ -28,14 +29,17 @@ public class Book {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name = "publication_date", nullable = false)
-    private LocalDate publication_date;
+    @Column(name = "info", length = 500, nullable = false)
+    private String info;
 
-//    @Column(name = "authonr_id", nullable = false)
-//    private Integer authonr_id;
+    @Column(name = "publication_date", nullable = false)
+    private Date publication_date;
+
+    @Column(name = "author_id", nullable = false)
+    private Integer author_id;
 
     @ManyToOne
-    @JoinColumn(name = "author_id")  // 外鍵對應到 "author" 表的 id
+    @JoinColumn(name = "author_id", insertable = false, updatable = false)  // 外鍵對應到 "author" 表的 id
     private Author author;
 
     @Column(name = "create_time", nullable = false)

@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface BookDAO extends BaseDAO<Book, Integer> {
     List<Book> findAll();
+    List<Book> findAllById(Integer id);
 
 //    @Query("SELECT b.author.name FROM Book b WHERE b.author.id = :authorId")
 //    List<Book> findByAuthorId(Integer authorId);

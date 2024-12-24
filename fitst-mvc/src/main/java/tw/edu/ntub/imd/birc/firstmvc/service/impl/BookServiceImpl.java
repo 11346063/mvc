@@ -35,11 +35,14 @@ public class BookServiceImpl extends BaseServiceImpl<BookBean, Book, Integer> im
 //
 //        return CollectionUtils.map(bookDAO.findAll(), transformer::transferToBean);
 //    }
-    public List<Book> findAll(){
-        return bookDAO.findAll();
+    public List<BookBean> findAll(){
+        return CollectionUtils.map(bookDAO.findAll(), transformer::transferToBean);
     }
 
 //    public List<BookBean> findAuthor(Integer id) {
 //        return bookDAO.findByAuthorId(id).toString();
 //    }
+    public List<BookBean> findId(Integer id) {
+        return CollectionUtils.map(bookDAO.findAllById(id), transformer::transferToBean);
+    }
 }

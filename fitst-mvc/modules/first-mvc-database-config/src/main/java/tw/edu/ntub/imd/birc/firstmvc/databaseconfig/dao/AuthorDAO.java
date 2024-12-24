@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface AuthorDAO extends BaseDAO<Author, Integer> {
     List<Author> findAll();
+    List<Author> findAllById(Integer id);
 }
