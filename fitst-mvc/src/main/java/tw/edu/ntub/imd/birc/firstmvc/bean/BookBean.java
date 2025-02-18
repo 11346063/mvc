@@ -40,6 +40,6 @@ public class BookBean {
     @Null(message = "create_time 不得填寫")
     private LocalDateTime create_time;
 
-    public Author author;
+    public AuthorBean author;
 
 }
