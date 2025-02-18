@@ -35,7 +35,7 @@ public class BookController {
 
     //新增
     @PostMapping
-    public ResponseEntity<String> createBook(@Valid @RequestBody BookBean bookBean,
+    public ResponseEntity<String> createBook(@Valid BookBean bookBean,
                                                 BindingResult bindingResult) {
         BindingResultUtils.validate(bindingResult);
 //        bookBean.setPublication_date(LocalDate.parse(bookBean.getPublication_date_str()));

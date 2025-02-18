@@ -1,6 +1,7 @@
 package tw.edu.ntub.imd.birc.firstmvc.bean;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity.Author;
 
 import javax.persistence.JoinColumn;
@@ -39,6 +40,10 @@ public class BookBean {
 
     @Null(message = "create_time 不得填寫")
     private LocalDateTime create_time;
+
+    private String filePath;
+
+    private MultipartFile[] files;
 
     public AuthorBean author;
 
