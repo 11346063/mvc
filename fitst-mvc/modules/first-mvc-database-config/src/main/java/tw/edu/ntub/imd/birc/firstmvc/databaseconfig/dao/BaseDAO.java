@@ -17,9 +17,7 @@ public interface BaseDAO<E, ID extends Serializable> extends BaseViewDAO<E, ID>,
     @Override
     boolean existsById(@Nonnull ID id);
 
-    default <S extends E> S update(S entity) {
-        return save(entity);
-    }
+    default <S extends E> S update(S entity) { return save(entity); }
 
     default <S extends E> List<S> updateAll(Iterable<S> entities) {
         return saveAll(entities);

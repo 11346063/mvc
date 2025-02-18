@@ -19,7 +19,7 @@ import java.util.List;
 
 @Table(name = "author", schema = Config.DATABASE_NAME)
 
-public class Author {
+public class    Author {
 
 
     @Id
