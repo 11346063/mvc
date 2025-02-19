@@ -31,9 +31,11 @@ public class BookBean {
     @Size(max = 500, message = "Info Size < 500")
     private String info;
 
-    @NotNull(message = "publication date - 未填寫")
 //    private String publication_date_str;
-    private Date publication_date;
+    private LocalDate publication_date;
+
+    @NotNull(message = "publication date - 未填寫")
+    private String publication_date_str;
 
     @NotNull(message = "author id - 未瑱寫")
     private Integer author_id;

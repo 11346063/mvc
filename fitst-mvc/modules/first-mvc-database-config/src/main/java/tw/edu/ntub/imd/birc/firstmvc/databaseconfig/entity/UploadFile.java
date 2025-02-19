@@ -13,11 +13,7 @@ import java.util.List;
 
 @Data
 @Entity
-@EntityListeners(AuthorListener.class)
-
-
 @Table(name = "upload", schema = Config.DATABASE_NAME)
-
 public class UploadFile {
 
 
@@ -27,7 +23,7 @@ public class UploadFile {
     private Integer id;
 
     @Column(name = "table_no", nullable = false)
-    private Integer TableNo;
+    private Integer tableNo;
     // 對應欄位資料
 
     @Column(name = "table_name", nullable = false)

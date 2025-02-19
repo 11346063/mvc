@@ -43,10 +43,10 @@ public class UploadFileServiceImpl extends BaseServiceImpl<UploadFileBean, Uploa
         @Override
         public UploadFileBean save(UploadFileBean uploadFileBean) {
 
-            UploadResult uploadResult = multipartFileUploader.upload(uploadFileBean.getFile(), "image");
+            UploadResult uploadResult = multipartFileUploader.upload(uploadFileBean.getFile(), "files");
 
             uploadFileBean.setFilePath(uploadResult.getUrl());
-
-            return uploadFileTransformer.transferToBean(uploadFileDAO.save(uploadFileTransformer.transferToEntity(uploadFileBean)));
+            UploadFile uploadFile = uploadFileDAO.save(uploadFileTransformer.transferToEntity(uploadFileBean));
+            return uploadFileTransformer.transferToBean(uploadFile);
         }
 }

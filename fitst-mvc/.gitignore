@@ -267,3 +267,4 @@ application-local.*
 /modules/first-mvc-config/.gradle
 /modules/first-mvc-database-config/.gradle
 /modules/first-mvc-database-config/src/generated/
+#/src/main/resources/application-local.yml

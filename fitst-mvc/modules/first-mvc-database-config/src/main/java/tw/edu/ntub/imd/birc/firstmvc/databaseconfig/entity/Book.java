@@ -33,7 +33,7 @@ public class Book {
     private String info;
 
     @Column(name = "publication_date", nullable = false)
-    private Date publication_date;
+    private LocalDate publication_date;
 
     @Column(name = "author_id", nullable = false)
     private Integer author_id;
@@ -44,9 +44,4 @@ public class Book {
 
     @Column(name = "create_time", nullable = false)
     private LocalDateTime create_time;
-
-    @Column(name = "file_path", length = 200)
-    private String filePath;
-
-
-}
+    }

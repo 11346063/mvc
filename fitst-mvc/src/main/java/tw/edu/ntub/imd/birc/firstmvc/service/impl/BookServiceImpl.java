@@ -36,12 +36,8 @@ public class BookServiceImpl extends BaseServiceImpl<BookBean, Book, Integer> im
 
     @Override
     public BookBean save(BookBean bookBean) {
-//        UploadResult uploadResult = multipartFileUploader.upload(bookBean.getFile(), "Image");
-//
-//        bookBean.setFilePath(uploadResult.getUrl());
-
-        bookDAO.save(transformer.transferToEntity(bookBean));
-        return null;
+        Book book =  bookDAO.save(transformer.transferToEntity(bookBean));
+        return transformer.transferToBean(book);
     }
 
 
