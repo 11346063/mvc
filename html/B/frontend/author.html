@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>書本資訊</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #b30000;
+        }
+
+        h2 {
+            color: rgb(219, 119, 132);
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        #authorInfo {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="authorInfo">
+        <a href="bookList.html">返回首頁</a>
+        <h1>瑞捐豪邁書局 - 作者資訊</h1>
+
+        <h2>作者姓名</h2>
+        <p id="authorName"></p>
+
+        <h2>簡介</h2>
+        <p id="authorDescription">書本介紹在這裡</p>
+
+        <h2>出生日期</h2>
+        <p id="birthDate">出版日期在這裡</p>
+
+    </div>
+
+    <script>
+
+
+
+    </script>
+        <script>
+            var getUrlString = location.href;
+            var url = new URL(getUrlString);
+            document.addEventListener('DOMContentLoaded', () => {    
+                const apiUrl = 'http://127.0.0.1:8080/author?id='+url.searchParams.get('id');
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        data = data.data[0]
+                        document.getElementById('authorName').innerText = data.name;
+                        document.getElementById('authorDescription').innerText = data.info;
+                        document.getElementById('birthDate').innerText = data.birthDate;
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            });
+
+        </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>書本資訊</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        h2 {
+            color: #0070cc;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        #bookInfo {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bookInfo">
+        <a href="bookList.html">返回首頁</a>
+        <h1>瑞捐豪邁書局 - 書本資訊</h1>
+
+        <h2>書本名稱</h2>
+        <p id="bookTitle">書本名稱在這裡</p>
+
+        <h2>介紹</h2>
+        <p id="bookDescription">書本介紹在這裡</p>
+
+        <h2>出版日期</h2>
+        <p id="publishDate">出版日期在這裡</p>
+
+        <h2>作者</h2>
+        <p ><a id="author" href=""></a></p>
+
+    </div>
+
+    <script>
+
+
+
+    </script>
+        <script>
+            var getUrlString = location.href;
+            var url = new URL(getUrlString);
+            document.addEventListener('DOMContentLoaded', () => {    
+                const apiUrl = 'http://127.0.0.1:8080/book?id='+url.searchParams.get('id');
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        data = data.data[0]
+                        document.getElementById('bookTitle').innerText = data.name;
+                        document.getElementById('bookDescription').innerText = data.info;
+                        document.getElementById('publishDate').innerText = data.publicationDate;
+                        document.getElementById('author').innerText = data.authorName;
+                        document.getElementById('author').href = `author.html?id=${data.authorId}`;
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            });
+
+        </script>
+</body>
+</html>
