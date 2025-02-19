@@ -15,6 +15,9 @@ public class UploadFileBean {
 //    private AuthorBean author;
 
 //    @Null(message = "id 不得填寫")
+    private Integer id;
+
+    @NotNull
     private Integer tableNo;
 
     @NotBlank
@@ -28,4 +31,5 @@ public class UploadFileBean {
 
     @NotNull
     public MultipartFile file;
+
 }

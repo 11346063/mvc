@@ -41,10 +41,9 @@ public class BookBean {
     @Null(message = "create_time 不得填寫")
     private LocalDateTime create_time;
 
-    private String filePath;
-
-    private MultipartFile[] files;
 
     public AuthorBean author;
+
+//    private MultipartFile[]  files;
 
 }

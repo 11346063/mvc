@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tw.edu.ntub.imd.birc.firstmvc.bean.AuthorBean;
 import tw.edu.ntub.imd.birc.firstmvc.bean.BookBean;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.dao.AuthorDAO;
@@ -27,6 +28,7 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
     private final AuthorDAO authorDAO;
+    private final UploadFileController uploadFileController;
 
     public String DateToString (Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -35,13 +37,15 @@ public class BookController {
 
     //新增
     @PostMapping
-    public ResponseEntity<String> createBook(@Valid BookBean bookBean,
+    public ResponseEntity<String> createBook(@Valid BookBean bookBean, MultipartFile[] files,
                                                 BindingResult bindingResult) {
         BindingResultUtils.validate(bindingResult);
 //        bookBean.setPublication_date(LocalDate.parse(bookBean.getPublication_date_str()));
 //        System.out.println(bookBean.getId() + "\n" + bookBean.getName() + "\n"
 //                + bookBean.getPublication_date() + "\n" + bookBean.getAuthonr_id() + "\n"
 //               + bookBean.getCreate_time() + "\n");
+
+        uploadFileController.uploadFile(files, bookBean.getId(), "book");
 
         bookService.save(bookBean);
         return ResponseEntityBuilder.success()
