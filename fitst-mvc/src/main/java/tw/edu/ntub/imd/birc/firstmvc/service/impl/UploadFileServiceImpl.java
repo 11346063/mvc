@@ -2,6 +2,7 @@ package tw.edu.ntub.imd.birc.firstmvc.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import tw.edu.ntub.birc.common.util.CollectionUtils;
 import tw.edu.ntub.imd.birc.firstmvc.bean.UploadFileBean;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.dao.UploadFileDAO;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity.UploadFile;
@@ -9,6 +10,8 @@ import tw.edu.ntub.imd.birc.firstmvc.dto.file.uploader.MultipartFileUploader;
 import tw.edu.ntub.imd.birc.firstmvc.dto.file.uploader.UploadResult;
 import tw.edu.ntub.imd.birc.firstmvc.service.UploadFileService;
 import tw.edu.ntub.imd.birc.firstmvc.service.transformer.UploadFileTransformer;
+
+import java.util.List;
 
 
 //告訴spring這是一個service
@@ -49,4 +52,8 @@ public class UploadFileServiceImpl extends BaseServiceImpl<UploadFileBean, Uploa
             UploadFile uploadFile = uploadFileDAO.save(uploadFileTransformer.transferToEntity(uploadFileBean));
             return uploadFileTransformer.transferToBean(uploadFile);
         }
+
+        public List<UploadFileBean> searchFiles(Integer tableNo, String tableName){
+            return CollectionUtils.map(uploadFileDAO.findByTableNoAndTableName(tableNo, tableName), uploadFileTransformer::transferToBean);
+    }
 }

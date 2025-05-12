@@ -11,6 +11,8 @@ import tw.edu.ntub.imd.birc.firstmvc.dto.file.uploader.UploadResult;
 import tw.edu.ntub.imd.birc.firstmvc.service.BookService;
 import tw.edu.ntub.imd.birc.firstmvc.service.UploadFileService;
 import tw.edu.ntub.imd.birc.firstmvc.util.http.ResponseEntityBuilder;
+import tw.edu.ntub.imd.birc.firstmvc.util.json.array.ArrayData;
+import tw.edu.ntub.imd.birc.firstmvc.util.json.object.ObjectData;
 
 import javax.validation.Valid;
 
@@ -45,13 +47,21 @@ public class UploadFileController {
         }
         return ResponseEntityBuilder.success().message("上傳成功").build();
     }
-//    @PostMapping(path = "")
-//    public ResponseEntity<String> upload(@Valid @RequestBody UploadFileBean uploadFileBean,
-//                                         BindingResult bindingResult) {
-//        MultipartFile file = uploadFileBean.getFile();
-//        uploadFileService.save(uploadFileBean);
-//        return ResponseEntityBuilder.success()
-//                .message("上傳成功")
-//                .build();
-//    }
+
+    @GetMapping(path = "/search", params = {"tableNo", "tableName"})
+    public ResponseEntity<String> getFiles(@RequestParam(name = "tableNo") Integer tableNo,
+                                           @RequestParam(name = "tableName") String tableName) {
+        ArrayData arrayData = new ArrayData();
+        for (UploadFileBean uploadFileBean : uploadFileService.searchFiles(tableNo, tableName)){
+            ObjectData objectData = arrayData.addObject();
+            objectData.add("name", uploadFileBean.getFileName());
+            objectData.add("path", uploadFileBean.getFilePath());
+        }
+
+        return ResponseEntityBuilder.success()
+                .message("查詢成功")
+                .data(arrayData)
+                .build();
+    }
 }
+

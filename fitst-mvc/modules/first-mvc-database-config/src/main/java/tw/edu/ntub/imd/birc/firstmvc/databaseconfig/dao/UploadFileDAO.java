@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface UploadFileDAO extends BaseDAO<UploadFile, Integer> {
-
+    List<UploadFile> findByTableNoAndTableName(Integer tableNo, String tableName);
 }

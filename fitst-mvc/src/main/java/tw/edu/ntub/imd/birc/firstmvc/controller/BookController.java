@@ -49,10 +49,6 @@ public class BookController {
         BindingResultUtils.validate(bindingResult);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         bookBean.setPublication_date(LocalDate.parse(bookBean.getPublication_date_str(), formatter));
-//        bookBean.setPublication_date(LocalDate.parse(bookBean.getPublication_date_str()));
-//        System.out.println(bookBean.getId() + "\n" + bookBean.getName() + "\n"
-//                + bookBean.getPublication_date() + "\n" + bookBean.getAuthonr_id() + "\n"
-//               + bookBean.getCreate_time() + "\n");
         BookBean book =  bookService.save(bookBean);
         System.out.println(book);
         for(MultipartFile file : files) {
@@ -117,6 +113,8 @@ public class BookController {
         for (BookBean bookBean : bookService.findAll()) {
             ObjectData objectData = arrayData.addObject();
             objectData.add("id", bookBean.getId());
+
+
             objectData.add("name", bookBean.getName()); // 返回書名
             objectData.add("publicationDate", bookBean.getPublication_date().format(formatter));
             objectData.add("authorId", bookBean.getAuthor_id());
@@ -132,21 +130,36 @@ public class BookController {
 
     @GetMapping(params = {"id"})
     public ResponseEntity<String> findById(@RequestParam(name = "id") Integer id) {
-//        DateTimeFormatter formatter = ;
+//        ArrayData arrayData = new ArrayData();
+//        for (BookBean bookBean : bookService.findId(id)) {
+//            ObjectData objectData = arrayData.addObject();
+//            objectData.add("id", bookBean.getId());
+//            objectData.add("name", bookBean.getName());
+//            objectData.add("info", bookBean.getInfo());
+//            objectData.add("publicationDate", bookBean.getPublication_date().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//            objectData.add("authorName", bookBean.getAuthor().getName());
+//            objectData.add("authorId", bookBean.getAuthor().getId());
+//        }
+        BookBean bookBean = bookService.findId(id).get(0);
+        ObjectData objectData = new ObjectData();         // 創 key, value
+        objectData.add("id", bookBean.getId());
+        objectData.add("name", bookBean.getName());
+        objectData.add("info", bookBean.getInfo());
+        objectData.add("publicationDate", bookBean.getPublication_date().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        objectData.add("authorName", bookBean.getAuthor().getName());
+        objectData.add("authorId", bookBean.getAuthor().getId());
 
-        ArrayData arrayData = new ArrayData();
-        for (BookBean bookBean : bookService.findId(id)) {
-            ObjectData objectData = arrayData.addObject();
-            objectData.add("id", bookBean.getId());
-            objectData.add("name", bookBean.getName());
-            objectData.add("info", bookBean.getInfo());
-            objectData.add("publicationDate", bookBean.getPublication_date().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            objectData.add("authorName", bookBean.getAuthor().getName());
-            objectData.add("authorId", bookBean.getAuthor().getId());
+        ArrayData files = new ArrayData();  // 建立list
+        for (UploadFileBean uploadFileBean : uploadFileService.searchFiles(id, "book")){
+            ObjectData objectData1 = files.addObject();    // 將下面objectData add 進 Array
+            objectData1.add("fileName", uploadFileBean.getFileName());
+            objectData1.add("filePath", uploadFileBean.getFilePath());
         }
+        objectData.add("uploadFileBeanList", files);
+
         return ResponseEntityBuilder.success()
                 .message("查詢成功")
-                .data(arrayData)
+                .data(objectData)
                 .build();
     }
 }

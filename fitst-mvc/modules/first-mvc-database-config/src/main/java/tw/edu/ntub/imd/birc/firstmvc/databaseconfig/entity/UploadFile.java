@@ -21,7 +21,6 @@ public class UploadFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
-
     @Column(name = "table_no", nullable = false)
     private Integer tableNo;
     // 對應欄位資料
