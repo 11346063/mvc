@@ -19,7 +19,8 @@ public class BookBean {
 //    @JoinColumn(name = "author_id", insertable = false, updatable = false)
 //    private AuthorBean author;
 
-//    @Null(message = "id 不得填寫")
+//    @Null(message = "id 不得填寫")\
+    @Null(message = "123")
     private Integer id;
 
     @NotBlank(message = "name - 未填寫")

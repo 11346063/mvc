@@ -49,9 +49,9 @@ public class BookController {
         BindingResultUtils.validate(bindingResult);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         bookBean.setPublication_date(LocalDate.parse(bookBean.getPublication_date_str(), formatter));
-        BookBean book =  bookService.save(bookBean);
+        BookBean book = bookService.save(bookBean);
         System.out.println(book);
-        for(MultipartFile file : files) {
+        for (MultipartFile file : files) {
             UploadFileBean uploadBean = new UploadFileBean();
             uploadBean.setTableNo(book.getId());
             uploadBean.setTableName("book");
@@ -65,11 +65,43 @@ public class BookController {
     }
 
     // 更新
-    @PatchMapping(path = "/{id}")
-    public ResponseEntity<String> updateScore(@RequestBody BookBean bookBean, @PathVariable Integer id) {
+//    @PatchMapping(path = "/{id}")
+//    public ResponseEntity<String> updateBook(@RequestBody BookBean bookBean, @PathVariable Integer id) {
+//
 
-//        bookBean.setPublication_date(LocalDate.parse(bookBean.getPublication_date_str()));
-        bookService.update(id, bookBean);
+    /// /        bookBean.setPublication_date(LocalDate.parse(bookBean.getPublication_date_str()));
+//        bookService.update(id, bookBean);
+//        return ResponseEntityBuilder.success()
+//                .message("更新成功")
+//                .build();
+//    }
+    @PatchMapping(path = {"/{sno}"})
+    public ResponseEntity<String> updateBookFlies(@PathVariable(name = "sno") Integer sno,
+                                                  @Valid BookBean bookBean,
+                                                  BindingResult bindingResult,
+                                                  MultipartFile[] files
+    ) {
+        // @RequestParam(name = "id") Integer id,) {
+        BindingResultUtils.validate(bindingResult);
+        bookBean.setId(sno);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        bookBean.setPublication_date(LocalDate.parse(bookBean.getPublication_date_str(), formatter));
+        // Integer id = bookBean.getId();
+        bookService.update(sno, bookBean);
+        if (files.length != 0) {
+            for (UploadFileBean file : uploadFileService.searchFiles(sno, "book")) {
+                uploadFileService.delete(file.getId());
+            }
+        }
+        for (MultipartFile file : files) {
+            UploadFileBean uploadBean = new UploadFileBean();
+            uploadBean.setTableNo(sno);
+            uploadBean.setTableName("book");
+            uploadBean.setFile(file);
+            uploadBean.setFileName(file.getOriginalFilename());
+            uploadFileService.save(uploadBean);
+        }
         return ResponseEntityBuilder.success()
                 .message("更新成功")
                 .build();
@@ -150,7 +182,7 @@ public class BookController {
         objectData.add("authorId", bookBean.getAuthor().getId());
 
         ArrayData files = new ArrayData();  // 建立list
-        for (UploadFileBean uploadFileBean : uploadFileService.searchFiles(id, "book")){
+        for (UploadFileBean uploadFileBean : uploadFileService.searchFiles(id, "book")) {
             ObjectData objectData1 = files.addObject();    // 將下面objectData add 進 Array
             objectData1.add("fileName", uploadFileBean.getFileName());
             objectData1.add("filePath", uploadFileBean.getFilePath());
